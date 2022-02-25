@@ -1,0 +1,20 @@
+﻿import React, { Component } from 'react';
+import styles from './{{pascalCase name}}.module.css';
+
+export class {{pascalCase name}} extends React.Component {
+	constructor(props) {
+        super(props);
+
+        this.state = {
+            heading: "This is a {{pascalCase name}} Component!"
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <h2> { this.state.heading} </h2>
+            </div>
+        );
+    }
+};
