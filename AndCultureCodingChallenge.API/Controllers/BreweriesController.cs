@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using AndCultureCodingChallenge.Data.Models;
 using AndCultureCodingChallenge.BL.Services;
 using AndCultureCodingChallenge.BL.Interface;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AndCultureCodingChallenge.API.Controllers
 {
@@ -18,30 +19,75 @@ namespace AndCultureCodingChallenge.API.Controllers
     {
         private readonly OpenBreweryDBContext _context;
         private readonly IOpenBreweryService _openBreweryServices;
+        private readonly IMemoryCache _memoryCache;
+        private readonly string breweryKey = "breweryKey";
 
-        public BreweriesController(OpenBreweryDBContext context, IOpenBreweryService openBreweryServices)
+        public BreweriesController(OpenBreweryDBContext context, 
+                                    IOpenBreweryService openBreweryServices,
+                                    IMemoryCache memoryCache)
         {
             _context = context;
             _openBreweryServices = openBreweryServices;
+            _memoryCache = memoryCache;       
         }
 
         // GET: api/Breweries
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Brewery>>> GetBreweries()
         {
-            return await _context.Breweries.ToListAsync();
+            List<Brewery> breweryList = null;
+
+            // If found in cache, return cached data
+            if (_memoryCache.TryGetValue(breweryKey, out breweryList)){
+                return Ok(breweryList);
+			}
+
+            // If not found, then calculate response
+            breweryList = await _context.Breweries.ToListAsync();
+
+            // Set cache options
+            var cacheOptions = new MemoryCacheEntryOptions()
+            {
+                AbsoluteExpiration = DateTime.Now.AddSeconds(30),
+                SlidingExpiration = TimeSpan.FromSeconds(30),
+                Priority = CacheItemPriority.High
+            };
+
+            // Set object in cache
+            _memoryCache.Set(breweryKey, breweryList, cacheOptions);
+
+            return breweryList;
         }
 
         // GET: api/Breweries/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Brewery>> GetBrewery(string id)
         {
-            var brewery = await _context.Breweries.FindAsync(id);
+            Brewery brewery = null;
+
+            // If found in cache, return cached data
+            if (_memoryCache.TryGetValue(breweryKey, out brewery))
+            {
+                return Ok(brewery);
+            }
+
+            brewery = await _context.Breweries.FindAsync(id);
 
             if (brewery == null)
             {
                 return NotFound();
             }
+
+            // Set cache options
+            var cacheOptions = new MemoryCacheEntryOptions()
+            {
+                AbsoluteExpiration = DateTime.Now.AddSeconds(30),
+                SlidingExpiration = TimeSpan.FromSeconds(30),
+                Priority = CacheItemPriority.High
+            };
+
+            // Set object in cache
+            _memoryCache.Set(breweryKey, brewery, cacheOptions);
 
             return brewery;
         }

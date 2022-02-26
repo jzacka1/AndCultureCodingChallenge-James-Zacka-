@@ -15,11 +15,17 @@ export class BreweryList extends React.Component {
             heading: "This is a BreweryList Component!",
             breweries: []
         }
+    }
 
-        api.get('').then(res => {
+    async getData() {
+        await api.get('').then(res => {
             this.setState({ breweries: res.data })
         });
-    }
+	}
+
+    componentDidMount() {
+        this.getData();
+	}
 
     render() {
         return (
