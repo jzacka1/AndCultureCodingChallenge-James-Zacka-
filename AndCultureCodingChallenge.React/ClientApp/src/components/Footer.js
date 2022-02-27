@@ -95,7 +95,7 @@ export class Footer extends Component {
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-md-12 text-center">
-                                                <p>Copyright James Zacka © 2021. All rights reserved.</p>
+                                                <p>Copyright James Zacka © {new Date().getFullYear()}. All rights reserved.</p>
                                             </div>
                                         </div>
                                     </div>

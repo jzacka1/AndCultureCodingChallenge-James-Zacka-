@@ -46,7 +46,7 @@ export class BreweryDetails extends React.Component {
                 <GoogleMaps location={this.state.location} zoomLevel={17} />
                 <div className="row justify-content-md-left">
                     <h3 className="header">{this.state.brewery.name}</h3>
-                    <div class="d-inline-flex">
+                    <div className="d-inline-flex">
                         <div class="p-2">
                             <FontAwesomeIcon icon={faLocationPin} />
                         </div>
