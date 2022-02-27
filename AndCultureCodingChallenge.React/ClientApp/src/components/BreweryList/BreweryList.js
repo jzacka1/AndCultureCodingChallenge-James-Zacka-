@@ -58,7 +58,25 @@ export class BreweryList extends React.Component {
 
     render() {
         const { page, perPage, pages, list, searchName } = this.state;
-        let items = this.state.list
+        let items = [];
+
+        if (searchName.length == 0) {
+            items = this.state.list
+                .slice(page * perPage, (page + 1) * perPage)
+                .map(item => {
+                    return (
+                        <tr>
+                            <td>{item.name}</td>
+                            <td>{item.breweryType}</td>
+                            <td>{item.street}, {item.city}, {item.state}, {item.postal_code}</td>
+                            <td><a href={item.website_url}>{item.websiteUrl}</a></td>
+                            <td><a href={'/brewery-details/' + item.obdbId}>Details</a></td>
+                        </tr>
+                    )
+                }) || '';
+        }
+        else {
+            items = this.state.list
                 .filter((item) => 
                     item.name.toLowerCase().includes(searchName)
 				)
@@ -74,6 +92,7 @@ export class BreweryList extends React.Component {
                         </tr>
                     )
                 }) || '';
+		}
 
         return (
             <div>
