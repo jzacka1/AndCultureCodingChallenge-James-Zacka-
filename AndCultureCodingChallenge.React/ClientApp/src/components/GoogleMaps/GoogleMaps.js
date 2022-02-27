@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import styles from './GoogleMaps.module.css';
+import './GoogleMaps.css';
 import GoogleMapReact from 'google-map-react';
 import { Icon } from '@iconify/react';
 import locationIcon from '@iconify/icons-mdi/map-marker';
@@ -23,7 +23,7 @@ export class GoogleMaps extends React.Component {
     render() {
         return (
             <div className="map">
-                <div className={styles.googleMap}>
+                <div className="googleMap">
                     <GoogleMapReact
                         defaultCenter={this.props.location}
                         defaultZoom={this.props.zoomLevel}

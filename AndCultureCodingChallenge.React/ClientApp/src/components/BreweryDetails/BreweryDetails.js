@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import styles from './BreweryDetails.module.css';
+import './BreweryDetails.css';
 import axios from 'axios';
 import { GoogleMaps } from '../GoogleMaps/GoogleMaps';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -43,10 +43,9 @@ export class BreweryDetails extends React.Component {
     render() {
         return (
             <div>
-                {/*<h2> {this.state.heading} </h2>*/}
                 <GoogleMaps location={this.state.location} zoomLevel={17} />
                 <div className="row justify-content-md-left">
-                    <h3 className={styles.header}>{this.state.brewery.name}</h3>
+                    <h3 className="header">{this.state.brewery.name}</h3>
                     <div class="d-inline-flex">
                         <div class="p-2">
                             <FontAwesomeIcon icon={faLocationPin} />
