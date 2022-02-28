@@ -1,7 +1,10 @@
-﻿footer {
+﻿/*footer {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 	text-align: center;
-}
+	border: 1px solid;
+	padding-top: 10px;
+	box-shadow: 2px 8px 2px 1px rgba(0, 0, 0, 0.2);
+}*/

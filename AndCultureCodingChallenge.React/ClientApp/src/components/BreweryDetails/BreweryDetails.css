@@ -5,3 +5,11 @@
 .header {
 	color: rgb(202, 34, 15);
 }
+
+.card{
+	width:fit-content;
+}
+
+.details{
+	width:fit-content;
+}

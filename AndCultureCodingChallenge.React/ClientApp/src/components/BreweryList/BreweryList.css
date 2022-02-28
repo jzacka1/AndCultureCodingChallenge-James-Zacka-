@@ -1,4 +1,6 @@
 .BreweryList {}
+
+/* -----  DataTable ----- */
 table {
 	font-family: arial, sans-serif;
 	border-collapse: collapse;
@@ -15,39 +17,60 @@ tr:nth-child(even) {
 	background-color: #dddddd;
 }
 
+/* -----  Paging ----- */
 .pagination {
-	display: flex;
-	justify-content: space-between;
-	list-style: none;
-	margin-top: 20px;
-	padding: 0;
+display: flex;
+justify-content: space-between;
+list-style: none;
+margin-top: 20px;
+padding: 0;
 }
 
-	.pagination a {
-		cursor: default;
-		padding: 10px;
-		border-radius: 5px;
-		border: 1px solid #6c7ac9;
-		color: #6c7ac9;
-		margin-left: 10px;
+.pagination a {
+	cursor: default;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #6c7ac9;
+	color: #6c7ac9;
+	margin-left: 10px;
+}
+
+.pagination li:not(.disabled) a:hover {
+	background-color: bisque;
+	cursor: pointer;
+}
+
+.pagination li a {
+	font-weight: bold;
+}
+
+.pagination li.active a {
+	color: #fff;
+	background: #6c7ac9;
+}
+
+.pagination li.disabled a {
+	pointer-events: none;
+	color: rgb(198, 197, 202);
+	border: 1px solid rgb(198, 197, 202);
+}
+
+/* -----  Animated Spinner Icon ----- */
+.spinner {
+	animation: spin infinite 2.5s linear;
+	/*You can increase or decrease the timer (5s) to 
+     increase or decrease the speed of the spinner*/
+
+	text-align: center;
+	width: 100%;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
 	}
 
-	.pagination li:not(.disabled) a:hover {
-		background-color: bisque;
-		cursor: pointer;
+	to {
+		transform: rotate(360deg);
 	}
-
-	.pagination li a {
-		font-weight: bold;
-	}
-
-	.pagination li.active a {
-		color: #fff;
-		background: #6c7ac9;
-	}
-
-	.pagination li.disabled a {
-		pointer-events: none;
-		color: rgb(198, 197, 202);
-		border: 1px solid rgb(198, 197, 202);
-	}
+}

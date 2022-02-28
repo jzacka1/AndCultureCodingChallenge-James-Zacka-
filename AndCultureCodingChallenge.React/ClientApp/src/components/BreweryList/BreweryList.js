@@ -1,8 +1,10 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, useEffect } from 'react';
 import './BreweryList.css';
 import axios from 'axios';
 import ReactTable from "react-table";
 import ReactPaginate from "react-paginate";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 const api = axios.create({
     //baseURL: 'https://api.openbrewerydb.org/breweries'
@@ -18,7 +20,7 @@ const paging = {
     pages: 40,
 };
 
-export class BreweryList extends React.Component {
+export class BreweryList extends Component {
 
 	constructor(props) {
         super(props);
@@ -28,21 +30,24 @@ export class BreweryList extends React.Component {
             perPage: 20,
             page: 0,
             pages: 0,
-            searchName: ''
+            searchName: '',
+            loading: true
         }
     }
 
     componentDidMount() {
         this.makeHttpRequest();
-    }
+};
 
     makeHttpRequest = async () => {
-        let res = await api.get('').catch(err => console.log(err));
+        let res = await api.get('')
+            .catch(err => console.log(err));
 
         const { perPage } = this.state;
         this.state.list = res.data;
         this.setState({
-            pages: Math.floor(this.state.list.length / perPage)
+            pages: Math.floor(this.state.list.length / perPage),
+            loading: false
         });
     };
 
@@ -57,7 +62,12 @@ export class BreweryList extends React.Component {
 	}
 
     render() {
-        const { page, perPage, pages, list, searchName } = this.state;
+        const { page, perPage, pages, list, searchName, loading } = this.state;
+
+        if (loading) {
+            return (<FontAwesomeIcon icon={faSpinner} className="spinner text-center" color="#569bd3" size="5x"/>)
+		}
+
         let items = [];
 
         if (searchName.length == 0) {
