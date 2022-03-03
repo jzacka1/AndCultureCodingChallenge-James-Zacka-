@@ -41,26 +41,7 @@ namespace AndCultureCodingChallenge.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Brewery>>> GetBreweries()
         {
-            List<Brewery> breweryList = null;
-
-            // If found in cache, return cached data
-            if (_memoryCache.TryGetValue(breweryKey, out breweryList)){
-                return Ok(breweryList);
-			}
-
-            // If not found, then calculate response
-            breweryList = await _context.Breweries.ToListAsync();
-
-            // Set cache options
-            var cacheOptions = new MemoryCacheEntryOptions()
-            {
-                AbsoluteExpiration = DateTime.Now.AddSeconds(30),
-                SlidingExpiration = TimeSpan.FromSeconds(30),
-                Priority = CacheItemPriority.High
-            };
-
-            // Set object in cache
-            _memoryCache.Set(breweryKey, breweryList, cacheOptions);
+            List<Brewery> breweryList = await _openBreweryServices.GetAllAsync();
 
             return breweryList;
         }
@@ -78,33 +59,7 @@ namespace AndCultureCodingChallenge.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Brewery>> GetBrewery(string id)
         {
-            Brewery brewery = null;
-
-            // If found in cache, return cached data
-            if (_memoryCache.TryGetValue(breweryKey, out brewery))
-            {
-                return Ok(brewery);
-            }
-
-            brewery = await _context.Breweries.FindAsync(id);
-
-            if (brewery == null)
-            {
-                return NotFound();
-            }
-
-            // Set cache options
-            var cacheOptions = new MemoryCacheEntryOptions()
-            {
-                AbsoluteExpiration = DateTime.Now.AddSeconds(30),
-                SlidingExpiration = TimeSpan.FromSeconds(30),
-                Priority = CacheItemPriority.High
-            };
-
-            // Set object in cache
-            _memoryCache.Set(breweryKey, brewery, cacheOptions);
-
-            return brewery;
+            return await _context.Breweries.FindAsync(id);
         }
 
         // GET: api/Breweries/city/Miami

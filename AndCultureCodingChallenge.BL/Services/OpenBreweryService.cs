@@ -1,5 +1,6 @@
 ﻿using AndCultureCodingChallenge.BL.Interface;
 using AndCultureCodingChallenge.Data.Models;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,11 @@ namespace AndCultureCodingChallenge.BL.Services
 {
 	public class OpenBreweryService: BusinessDbAccess, IDataService<Brewery>, IOpenBreweryService
 	{
-		public OpenBreweryService(OpenBreweryDBContext db) : base(db)
-		{
+		private readonly IMemoryCache _memoryCache;
 
+		public OpenBreweryService(OpenBreweryDBContext db, IMemoryCache memoryCache) : base(db)
+		{
+			_memoryCache = memoryCache;
 		}
 
 		/// <summary>
@@ -46,7 +49,31 @@ namespace AndCultureCodingChallenge.BL.Services
 		/// </returns>
 		public List<Brewery> GetAll()
 		{
-			return Db.Breweries.ToList<Brewery>();
+			List<Brewery> list;
+
+			string breweryListKey = "breweryListKey";
+
+			if (_memoryCache.TryGetValue(breweryListKey, out list))
+				return list;
+
+			try
+			{
+				list = Db.Breweries.ToList<Brewery>();
+
+				var cacheOptions = new MemoryCacheEntryOptions()
+				{
+					AbsoluteExpiration = DateTime.Now.AddMinutes(15),
+					SlidingExpiration = TimeSpan.FromMinutes(5),
+					Priority = CacheItemPriority.High
+				};
+
+				_memoryCache.Set(breweryListKey, list, cacheOptions);
+			}
+			catch (Exception ex) {
+				throw;
+			}
+
+			return list;
 		}
 
 		/// <summary>
@@ -60,6 +87,45 @@ namespace AndCultureCodingChallenge.BL.Services
 			return await Task.Run(() =>
 				GetAll()
 			);
+		}
+
+		/// <summary>
+		///  Fetches a brewery record by id.
+		/// </summary>
+		/// <param name="id">
+		///  Id value of brewery
+		/// </param>
+		/// <returns>
+		///  Record of type Brewery.
+		/// </returns>
+		public Brewery GetById(int id)
+		{
+			Brewery item;
+
+			string breweryItemKey = "breweryItemKey";
+
+			if (_memoryCache.TryGetValue(breweryItemKey, out item))
+				return item;
+
+			try
+			{
+				item = Db.Breweries.Find(id);
+
+				var cacheOptions = new MemoryCacheEntryOptions()
+				{
+					AbsoluteExpiration = DateTime.Now.AddMinutes(5),
+					SlidingExpiration = TimeSpan.FromMinutes(2),
+					Priority = CacheItemPriority.High
+				};
+
+				_memoryCache.Set(breweryItemKey, item, cacheOptions);
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+
+			return item;
 		}
 
 		/// <summary>
@@ -90,20 +156,6 @@ namespace AndCultureCodingChallenge.BL.Services
 			return await Task.Run(() =>
 				GetByCity(city)
 			);
-		}
-
-		/// <summary>
-		///  Fetches a brewery record by id.
-		/// </summary>
-		/// <param name="id">
-		///  Id value of brewery
-		/// </param>
-		/// <returns>
-		///  Record of type Brewery.
-		/// </returns>
-		public Brewery GetById(int id)
-		{
-			return Db.Breweries.Find(id);
 		}
 
 		/// <summary>

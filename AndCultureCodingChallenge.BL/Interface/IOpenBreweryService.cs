@@ -10,6 +10,8 @@ namespace AndCultureCodingChallenge.BL.Interface
 {
 	public interface IOpenBreweryService
 	{
+		List<Brewery> GetAll();
+		Task<List<Brewery>> GetAllAsync();
 		List<Brewery> GetByCity(string city);
 		Task<List<Brewery>> GetByCityAsync(string city);
 		List<Brewery> GetByState(string state);

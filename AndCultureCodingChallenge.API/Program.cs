@@ -27,7 +27,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<OpenBreweryDBContext>(options =>
 					options.UseSqlServer(
 						builder.Configuration.GetConnectionString("DefaultLocalConnection")));
-builder.Services.AddTransient<IOpenBreweryService, OpenBreweryService>();
+builder.Services.AddScoped<IOpenBreweryService, OpenBreweryService>();
 
 var app = builder.Build();
 
