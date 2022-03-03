@@ -6,7 +6,7 @@ import locationIcon from '@iconify/icons-mdi/map-marker';
 
 const LocationPin = ({ text }: { text: string; lat: number; lng: number;}) => (
     <div className="pin">
-        <Icon icon={locationIcon} className="pin-icon" />
+        <Icon icon={locationIcon} className="pin-icon" height="40" color="#cc2c1b" />
         <p className="pin-text">{text}</p>
     </div>
 )
