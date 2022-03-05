@@ -11,8 +11,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        dir: ['.\AndCultureCodingChallenge.API', '.\AndCultureCodingChallenge.React']
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        dir: ['AndCultureCodingChallenge.API', 'AndCultureCodingChallenge.React']
         
     runs-on: ${{ matrix.os }}
 
