@@ -24,9 +24,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<OpenBreweryDBContext>(options =>
-					options.UseSqlServer(
-						builder.Configuration.GetConnectionString("DefaultLocalConnection")));
+builder.Services.AddDbContext<OpenBreweryDBContext>(options => {
+
+	#if DEBUG
+		options.UseSqlServer(
+			builder.Configuration.GetConnectionString("DefaultLocalConnection"));
+	#elif RELEASE
+		options.UseNpgsql(
+			builder.Configuration["Heroku:AndCulture:Postgres:ConnectionString"]);
+	#endif
+});
 builder.Services.AddScoped<IOpenBreweryService, OpenBreweryService>();
 
 var app = builder.Build();
