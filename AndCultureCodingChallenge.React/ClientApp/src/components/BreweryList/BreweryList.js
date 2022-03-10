@@ -74,12 +74,22 @@ export class BreweryList extends Component {
             items = this.state.list
                 .slice(page * perPage, (page + 1) * perPage)
                 .map(item => {
+                    var urlLink = null;
+
+                    //Check if website URL isn't null, then return anchor tag, otherwise leave it blank.
+                    if (item.website_url != null)
+                        urlLink = <a href={item.website_url}>{item.websiteUrl}</a>;
+
                     return (
                         <tr>
                             <td>{item.name}</td>
                             <td>{item.breweryType}</td>
                             <td>{item.street}, {item.city}, {item.state}, {item.postal_code}</td>
-                            <td><a href={item.website_url}>{item.websiteUrl}</a></td>
+                            <td>
+                                {
+                                    urlLink
+                                }
+                            </td>
                             <td><a href={'/brewery-details/' + item.obdbId}>Details</a></td>
                         </tr>
                     )

@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AndCultureCodingChallenge.B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AndCultureCodingChallenge.Data", "AndCultureCodingChallenge.Data\AndCultureCodingChallenge.Data.csproj", "{65931935-33CC-4FCD-A86F-2204EE33168A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndCultureCodingChallenge.React", "AndCultureCodingChallenge.React\AndCultureCodingChallenge.React.csproj", "{204578BA-8E04-4989-894D-B44195B0D971}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AndCultureCodingChallenge.React", "AndCultureCodingChallenge.React\AndCultureCodingChallenge.React.csproj", "{204578BA-8E04-4989-894D-B44195B0D971}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndcultureCodingChallenge.Specflow", "AndcultureCodingChallenge.Specflow\AndcultureCodingChallenge.Specflow.csproj", "{8E093DC5-BB3C-41D6-92A8-1689C3EC2E1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{204578BA-8E04-4989-894D-B44195B0D971}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{204578BA-8E04-4989-894D-B44195B0D971}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{204578BA-8E04-4989-894D-B44195B0D971}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E093DC5-BB3C-41D6-92A8-1689C3EC2E1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E093DC5-BB3C-41D6-92A8-1689C3EC2E1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E093DC5-BB3C-41D6-92A8-1689C3EC2E1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E093DC5-BB3C-41D6-92A8-1689C3EC2E1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
